@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>传递参数</title>
+</head>
+<body>
+<script>
+    //对象是按值传递的
+    function setName(obj) {
+        obj.name = "Jack";
+        obj = new Object(); //局部对象
+        obj.name ="John"
+    }
+    var person = new Object();
+    setName(person);
+    alert(person.name);
+    alert (person instanceof  Object); //instanceof 判断一个实利是否属于某个类型。
+
+    //作用域
+    var color="blue";
+    function changColor(){
+        var anontherColor = "red";
+        function swapColors(){
+            var tempColor = anontherColor;
+            anontherColor = color;
+            color = tempColor
+        }
+        swapColors();
+    }
+    changColor();
+    alert('Now color is '+color);
+
+    //延长作用域链
+    var o = {href:'2222'};
+    var herf = "www";
+    function buildUrl(){
+        var qs ="?debug=true";
+        with(o){
+            var url = href+qs;
+        }
+        return url;
+    }
+   var result= buildUrl();
+    alert(result);
+
+    //object 实例
+    function displayInfo(args) {
+        var output= "";
+        if(typeof args.name == "string") {
+            output = "Name:"+args.name+"\n";
+        }
+        if(typeof args.age == "number"){
+            output = "Age:"+args.age+"\n";
+        }
+        alert(output)
+    }
+    displayInfo({
+        name:'Nichole',
+        age:25
+    })
+    displayInfo({
+        age:30
+    })
+
+    //array
+    var colors = ['red','blue','yellow']
+    alert(colors)
+
+</script>
+</body>
+</html>

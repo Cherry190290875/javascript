@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>apply和call的应用区别</title>
+</head>
+<body>
+<script>
+    function person (name,age) {
+        this.name = name;
+        this.age = age;
+    }
+    function student (name,age,sex) {
+//        person.apply(this,arguments);  //apply用法
+        person.call(this,name,age);   //call用法
+        this.sex = sex;
+    }
+    var result = new student("John","25","女")
+    var str ="name:"+result.name+"\n"+"<br>"+"age:"+result.age+"\n"+"<br>"+"sex"+result.sex+"\n"
+    document.write(str)
+
+</script>
+</body>
+</html>

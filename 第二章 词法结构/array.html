@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数组</title>
+</head>
+<body>
+<script>
+    //排序
+    function compare(value1,value2) {
+        if(value1>value2){
+            return 1
+        }else if(value1<value2){
+            return -1
+        }else {
+            return 0
+        }
+    }
+    var values = [10,8,9,6,4,5];
+    values.sort(compare);
+    console.log(values);
+
+    //splice()三种用法
+    var colors = ["red","green","blue"];
+    var aaa = colors.splice(0,1);
+    console.log(aaa);
+    var  bbb = colors.splice(1,0,"yellow","orange");
+    console.log(bbb);
+    var ccc = colors.splice(1,1,"yellow");
+    console.log(ccc);
+
+    var numbers = [1,2,3,4,5,4,3,2,1];
+    console.log(numbers.indexOf(2)); //返回要查找的项在数组中的位置
+
+    var everyoneResult = numbers.every(function(item,index,array){
+        return (item>2);
+    });
+    alert(everyoneResult);
+
+    var fiflerResult = numbers.filter(function(item,index,array){
+        return (item>2);
+    });
+    alert(fiflerResult);
+
+    var reduceResult = numbers.reduce(function(pre,cur,index,array){
+        return pre+cur;
+    });
+    alert(reduceResult);//从前向后遍历相加，reduceRight()则是从后向前遍历相加
+
+    var now = new Date();
+    console.log(now);
+    var start = Date.now();
+    console.log(start);
+    console.log(now.toDateString());
+    console.log(now.toLocaleDateString());
+
+    var re = null;
+    var i;
+    for(i=0;i<10;i++){
+        re = /cat/g;
+        re.test("catastrophe")
+    }
+
+    for(i=0;i<10;i++){
+        var re = new RegExp('cat','g')
+        re.test("catastrophe")
+    }
+</script>
+</body>
+</html>
