@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /*选择图片框样式*/
+        #div_imgfile {
+            width: 100px;
+            height:100px;
+            line-height: 100px;
+            color:#666;
+            border: 2px solid #666;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 30px;
+            margin-top: 30px;
+        }
+        #div_imgfile:hover {
+            background: #f5f5f5;
+        }
+        .imgfile {
+            display: none;
+        }
+        /*图片预览容器及效果*/
+        .lookimg {
+            width: 100px;
+            height:100px;
+            border:2px solid #666;
+            float: left;
+            margin-right: 10px;
+            position: relative;
+        }
+        .lookimg img {
+            width: 100%;
+            height:100%;
+            box-sizing: border-box;
+        }
+        .lookimg:hover .lookimg_delBtn {
+            display: block;
+            opacity: 0.7;
+        }
+        .lookimg .lookimg_delBtn:hover {
+            opacity: 1;
+        }
+        .lookimg_delBtn {
+            width: 100%;
+            background: #666;
+            color:#fff;
+            height: 30px;
+            position: relative;
+            margin-top: -32px;
+            line-height: 30px;
+            text-align:center;
+            display: none;
+        }
+        /*确定上传*/
+        #btn_ImgUpStart {
+            padding:5px 23px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="div_imglook">
+    <div  class="lookimg" style="display: none;clear: both;"></div>
+</div>
+<div id="div_imgfile">
+选择图片
+</div>
+<button id="btn_ImgUpStart">
+    确定上传
+</button>
+<script src="js/jquery-1.7.2.min.js"></script>
+<script>
+    var imgMaxCount= 2;//最多选中图片张数
+    var imgLength = 1;//图片最大1MB
+    var count=0;//上传图片张数记录
+
+    //打开选择文件对话框
+    $('#div_imgfile').click(function(){
+        if($('.lookimg').length>imgMaxCount) {
+            alert("一次最多上传"+imgMaxCount+"张图片");
+            return false;
+        }
+        var inputFile = document.createElement("input");
+        if($('.imgfile').length<$('.lookimg').length){
+            inputFile.setAttribute("type","file");
+            inputFile.setAttribute("class","imgfile");
+            inputFile.setAttribute("accept",".png,.jpg,jpeg");
+            inputFile.setAttribute("num",count);
+            $('#div_imgfile').after(inputFile);
+        }
+        else {
+            inputFile = $('.imgfile').eq(0).get(0);
+        }
+        return $(inputFile).click();
+    })
+
+    //创建预览图
+    $('.imgfile').live('change',function(){
+        console.log($(this).val());
+        if($(this).val().length>0) {   //判断是否有图片
+            var format = $(this).val().substr($(this).val().length - 3, 3);  //图片格式
+            console.log(format);
+            if (format != "png" && format != "jpg" && format != "jpeg") {
+                alert('请上传正确的文件格式');
+                return false;
+            }
+
+            //判断图片是否过大
+            var file = this.files[0];
+            console.log(file.size);
+            if (file.size>imgLength*1024*1024) {
+                alert("图片不能超过"+imgLength+"MB");
+                $(this).val("");
+                return false;
+            }
+            //创建外层预览图div
+            var preDiv = document.createElement('div');
+            preDiv.setAttribute("class","lookimg");
+            //创建内层img
+            var preImg = document.createElement("img");
+            $(preDiv).append(preImg);
+            //创建删除按钮
+            var btnDiv = document.createElement('div');
+            btnDiv.setAttribute("class","lookimg_delBtn");
+            btnDiv.innerHTML="移除";
+            console.log(btnDiv)
+            $(preDiv).append(btnDiv);
+            //记录对应的div个数
+            preDiv.setAttribute("num",$(this).attr("num"));
+            //对象插入界面
+            $('#div_imglook').children("div:last").before(preDiv);
+            count++;
+
+            //预览功能
+            var render = new FileReader();
+            render.onloadend = function(){
+                preImg.src=render.result;
+            };
+            if(file) {
+                render.readAsDataURL(file); //获取图片编码
+            }else{
+                preImg.src="";//返回空值
+            }
+            if($('.lookimg').length>1){
+                $('#div_imglook').show().css("height","100px")
+            }else {
+                $('#div_imglook').css("display","none");
+            }
+
+        }
+    })
+
+    //删除选中图片
+    $('.lookimg_delBtn').live("click",function(){
+        $(this).parent().remove();//移除图片
+        if($('.lookimg').length>1){
+            $('#div_imglook').show().css("height","100px")
+        }else {
+            $('#div_imglook').css("display","none");
+        }
+    })
+
+    //确定上传
+    $('#btn_ImgUpStart').click(function(){
+        if($('.imgfile').length==0){
+            alert('请选择需要上传的图片');
+        }
+
+    })
+
+</script>
+</body>
+</html>
