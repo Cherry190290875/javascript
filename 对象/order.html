@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    O = {X:1,Y:{Z:[false,null,""]}};
+    s=JSON.stringify(O);   //序列化
+    p=JSON.parse(s);    //还原js对象
+    console.log(s);
+    console.log(p);
+    var m = {x:1,y:2}.toString();
+    console.log(m);
+
+    var arr = {};
+    arr[0]="one";
+    console.log(arr);
+
+    //遍历二维数组
+    var Array=[1,,2,[5,6,8],4,,5,[7,8,4]]
+    for(var i=0;i<Array.length;i++){
+        if( !Array[i] ){
+            console.log(i);
+            continue
+        }
+      console.log(Array[i])
+        for(var j =0;j<Array[i].length;j++){
+          console.log(Array[i][j])
+        }
+    }
+
+    //九九乘法表
+    var table = new Array(10);
+    for(var i=0;i<table.length;i++){
+        table[i]=new Array(10);
+    }
+    for (var row=0;row<table.length;row++){
+        for(var col=0;col<table[row].length;col++){
+            table[row][col]=row*col;
+        }
+    }
+    var product = table[5][7];
+
+</script>
+</body>
+</html>
